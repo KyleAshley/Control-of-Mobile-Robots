@@ -26,7 +26,7 @@ void main(void) {
 
 
 	EnableInterrupts;
-    
+             
     
     while(1)
     {
