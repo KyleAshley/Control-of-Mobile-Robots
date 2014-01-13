@@ -9,7 +9,7 @@ void main(void) {
   /* put your own code here */
 
     unsigned int digi;
-    unsigned char val;
+    unsigned int val;
     int res = 10;
 
     sev_setup();
@@ -32,12 +32,10 @@ void main(void) {
     while(1)
     {
         digi = atd0_readChX(0);            // reads data registers of corresponding ATD Data Reg
-        time = ((2 << res) / digi);
+        val = (int)(digi / 64) + 49;       // breaks digital range into 8 regions ( +49 for numeric ASCII)
 
-        sev_write(' ');
-        LCDmsDelay(time);
-        sev_write('8');
-        LCDuDelay(300);
+        sev_write(val);
+        LCDmsDelay(10);
     }
 
 
