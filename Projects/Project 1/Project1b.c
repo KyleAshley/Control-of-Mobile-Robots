@@ -23,20 +23,17 @@ void main(void) {
     atd0_setMulti(0);               // sets ATD Module 0 MULT bit on/off (1/0)
     atd0_setStart(2);               // sets starting channel of ATD conversion sequence (call Last)
 
-
-
 	EnableInterrupts;
-             
-    
+
     while(1)
     {
         digi = atd0_readChX(0);            // reads data registers of corresponding ATD Data Reg
         time = ((2 << res) / digi);
 
         sev_write(' ');
-        LCDmsDelay(time);
+        delay_ms(time);
         sev_write('8');
-        LCDuDelay(300);
+        delay_us(300);
     }
 
 

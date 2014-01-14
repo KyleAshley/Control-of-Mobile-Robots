@@ -1,4 +1,5 @@
  #include <hidef.h>      /* common defines and macros */
+ #include <math.h>
 #include "derivative.h"      /* derivative-specific definitions */
 #include "7seg.h"
 #include "atd.h"
@@ -24,18 +25,14 @@ void main(void) {
     atd0_setMulti(0);               // sets ATD Module 0 MULT bit on/off (1/0)
     atd0_setStart(2);               // sets starting channel of ATD conversion sequence (call Last)
 
-
-
 	EnableInterrupts;
-    
-    
+
     while(1)
     {
         digi = atd0_readChX(0);            // reads data registers of corresponding ATD Data Reg
-        val = (int)(digi / 64) + 49;       // breaks digital range into 8 regions ( +49 for numeric ASCII)
-
+        val = (int)(digi / (pow(2, (res - 1))) * 9) + 48;       // breaks digital range into 8 regions ( +49 for numeric ASCII)                
         sev_write(val);
-        LCDmsDelay(10);
+        delay_ms(10);  
     }
 
 
