@@ -28,12 +28,12 @@ void main(void) {
     while(1)
     {
         digi = atd0_readChX(0);            // reads data registers of corresponding ATD Data Reg
-        time = ((2 << res) / digi);
+        time = ((2 << (res - 1)) / digi);
 
         sev_write(' ');
         delay_ms(time);
         sev_write('8');
-        delay_us(300);
+        delay_us(500);
     }
 
 
