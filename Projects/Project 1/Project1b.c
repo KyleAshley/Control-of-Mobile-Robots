@@ -12,12 +12,12 @@ void main(void) {
     unsigned int digi, val;
     int res = 8;
     
-   SYNR = 2;
-   REFDV = 0;
-   while (!(CRGFLG & 0x08));
-   CLKSEL = 0x80;                 // Bus = 24Mhz
+    SYNR = 2;
+    REFDV = 0;
+    while (!(CRGFLG & 0x08));
+    CLKSEL = 0x80;                 // Bus = 24Mhz
 
-    sev_setup();
+    DDRH = 0xFF;
 
     atd0_powerOn();                 // Powers on ATD module 0
     atd0_setFFC(0);                 // set fast flag clearing on/off
@@ -36,7 +36,6 @@ void main(void) {
         digi = atd0_readChX(0);            // reads data registers of corresponding ATD Data Reg
         val = (int)((digi) / (pow(2, (res - 1))) * 9) + 48;       // breaks digital range into 8 regions ( +49 for numeric ASCII)                
         sev_write(val);
-        delay_ms(10);
     }
 
 
