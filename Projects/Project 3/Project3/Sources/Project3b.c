@@ -17,20 +17,14 @@ butterworth_2pole_ft butterF;
 void main(void) {
   /* put your own code here */
   unsigned int res = 8;
-
   
-  //float butter_feedback[] = {-1.561f, 0.64135f};
-  //float butter_feedforward[] = {0.020083, 0.040167, 0.020083};
+  float butter_feedback[] = {-1.7786f, 0.8008f};                        // float butterworth A scalars
+  float butter_feedforward[] = {0.0055427, 0.011085, 0.0055427};        // float butterworth B scalars
   
-  float butter_feedback[] = {-1.7786f, 0.8008f};
-  float butter_feedforward[] = {0.0055427, 0.011085, 0.0055427};
-  
-  //float butter_feedback[] = {-1.9556f, 0.95654f};
-  //float butter_feedforward[] = {0.00024136, 0.00048272, 0.00024136};
-  
-  int butter_feedbackF[] = {-7235, 3280};                          // scaling factor Q2.12
-  int butter_feedforwardF[] = {23, 45, 23};
-    
+  long butter_feedbackF[] = {-116562, 52481};                          // scaling factor Q16.16
+  long butter_feedforwardF[] = {363, 726, 363};                        // scaling factor Q16.16
+      
+      
   SYNR = 2;                 // 24mHz clock
   REFDV = 0;
   while (!(CRGFLG&0x08)){};
@@ -72,10 +66,13 @@ void main(void) {
 #pragma TRAP_PROC
 #pragma CODE_SEG __SHORT_SEG NON_BANKED
 interrupt VectorNumber_Vrti void rtiInterrupt () {
-  static unsigned int rti_count = 0, val;
-  float avgButter = 0;
-  long avgButter2 = 0;
-  unsigned char avgBuf[9] = {0}, timeBuf[9] = {0};
+  static unsigned int rti_count = 0;
+  long val;                                       // sensor read
+  float avgButter = 0;                            // floating filter val
+  int avgButter2 = 0;                             // fixed filter val
+  unsigned char avgBuf[9] = {0},                  // output buffers
+                timeBuf[9] = {0}, 
+                avgBufF[9] = {0};
   unsigned int i, j;
   unsigned int start, end;
   int time_butter, time_butter2;
@@ -89,22 +86,20 @@ interrupt VectorNumber_Vrti void rtiInterrupt () {
     // reset the counters and timing variables
     rti_count = 0;
     avgButter = 0;
-    
     start = 0;
     end = 0;
 
-    val = atd0_readChX(0);
-    butterworth_2pole_putF(&butterF, val);
-    butterworth_2pole_put(&butter, val);
+    val = atd0_readChX(0);                        // read atd ch0
     
     mt_ovf = 0;
     start = TCNT;
-    
+   
+    butterworth_2pole_put(&butter, val);               // compute float filter
     avgButter = butterworth_2pole_get_float(&butter);
     
     end = TCNT;
     
-    // compute the time it took to average sliding filter
+    // compute the time it took to average float filter
     if(mt_ovf == 0)
        time_butter = (end - start) / (double)24.0;
     else
@@ -112,23 +107,25 @@ interrupt VectorNumber_Vrti void rtiInterrupt () {
     
     start = TCNT;
     
-    
+    butterworth_2pole_putF(&butterF, val);        //compute fixed filter
     avgButter2 = butterworth_2pole_get_longF(&butterF);
-    avgButter2 = avgButter2 >> 8;
     
     end = TCNT;
     
-    // compute the time it took to average sliding filter
+    // compute the time it took to average fixed filter
     if(mt_ovf == 0)
        time_butter2 = (end - start) / (double)24.0;
     else
       time_butter2 = (((((mt_ovf) * 65536) + (end - start)) * 4) / ((double)24.0));
     
-    sprintf(avgBuf, "%3.0f %3d", avgButter, avgButter2);   
+    sprintf(avgBuf, "%3.0f", avgButter);
+    sprintf(avgBufF, "%3d", avgButter2);   
     sprintf(timeBuf, "%3d %3d", time_butter, time_butter2); 
-    // output the average and time on the LCD
+    //output the average and time on the LCD
     lcd_clear();   
     lcd_outputString(avgBuf);
+    lcd_outputChar(' ');
+    lcd_outputString(avgBufF);
     lcd_newLine();
     lcd_outputString(timeBuf);
   }
@@ -141,5 +138,5 @@ interrupt VectorNumber_Vtimovf void ovfInterrupt ()
   // ALWAYS CLEAR THE FLAG FIRST!
   TFLG2 |= 0x80;
   
-  mt_ovf++;
+  mt_ovf++;          // count ovfs
 }
