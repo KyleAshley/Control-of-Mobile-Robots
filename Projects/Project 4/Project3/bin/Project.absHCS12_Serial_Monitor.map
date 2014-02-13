@@ -14,18 +14,9 @@ FILE SECTION
 ---------------------------------------------------------------------------------------------
 mc9s12dg256.c.o                         Model: BANKED,        Lang: ANSI-C
 Start12.c.o                             Model: BANKED,        Lang: ANSI-C
-PRINTF.C.o (ansibf.lib)                 Model: BANKED,        Lang: ANSI-C
-DADD.C.o (ansibf.lib)                   Model: BANKED,        Lang: ANSI-C
-DANSI.C.o (ansibf.lib)                  Model: BANKED,        Lang: ANSI-C
-DCMP.C.o (ansibf.lib)                   Model: BANKED,        Lang: ANSI-C
-DCONV.C.o (ansibf.lib)                  Model: BANKED,        Lang: ANSI-C
-DMUL.C.o (ansibf.lib)                   Model: BANKED,        Lang: ANSI-C
-DREGS.C.o (ansibf.lib)                  Model: BANKED,        Lang: ANSI-C
 rtshc12.c.o (ansibf.lib)                Model: BANKED,        Lang: ANSI-C
-VREGS.C.o (ansibf.lib)                  Model: BANKED,        Lang: ANSI-C
 atd.c.o                                 Model: BANKED,        Lang: ANSI-C
 delays.c.o                              Model: BANKED,        Lang: ANSI-C
-lcd.c.o                                 Model: BANKED,        Lang: ANSI-C
 filtersFixed.c.o                        Model: BANKED,        Lang: ANSI-C
 Project4a.c.o                           Model: BANKED,        Lang: ANSI-C
 
@@ -36,8 +27,8 @@ Entry point: 0xC000 (_Startup)
 _startupData is allocated at 0xC015 and uses 6 Bytes
 extern struct _tagStartup {
   unsigned nofZeroOut     1
-  _Range   pZeroOut       0x1100     71
-  _Copy    *toCopyDownBeg 0xC857
+  _Range   pZeroOut       0x1100     55
+  _Copy    *toCopyDownBeg 0xC121
 } _startupData;
 
 *********************************************************************************************
@@ -46,11 +37,10 @@ Section Name                    Size  Type     From       To       Segment
 ---------------------------------------------------------------------------------------------
 .init                             21     R     0xC000     0xC014   ROM_C000
 .startData                        10     R     0xC015     0xC01E   ROM_C000
-.rodata                          324     R     0xC01F     0xC162   ROM_C000
-.rodata1                           4     R     0xC163     0xC166   ROM_C000
-NON_BANKED                      1776     R     0xC167     0xC856   ROM_C000
-.copy                              9     R     0xC857     0xC85F   ROM_C000
-.text                           4487     R   0x308000   0x309186   PAGE_30
+.rodata                           16     R     0xC01F     0xC02E   ROM_C000
+NON_BANKED                       242     R     0xC02F     0xC120   ROM_C000
+.copy                              9     R     0xC121     0xC129   ROM_C000
+.text                            983     R   0x308000   0x3083D6   PAGE_30
 .stack                           256   R/W     0x1000     0x10FF   RAM
 .data                              4   R/W     0x1100     0x1103   RAM
 .abs_section_8                     1   N/I        0x8        0x8   .absSeg0
@@ -396,13 +386,14 @@ NON_BANKED                      1776     R     0xC167     0xC856   ROM_C000
 .abs_section_2be                   2   N/I      0x2BE      0x2BF   .absSeg340
 .abs_section_fff0                  2     R     0xFFF0     0xFFF1   .absSeg341
 .abs_section_ffde                  2     R     0xFFDE     0xFFDF   .absSeg342
-.bss                              30   R/W     0x1104     0x1121   RAM
-.common                           37   R/W     0x1122     0x1146   RAM
-.vectSeg343_vect                   2     R     0xFFFE     0xFFFF   .vectSeg343
+.abs_section_ffca                  2     R     0xFFCA     0xFFCB   .absSeg343
+.bss                              18   R/W     0x1104     0x1115   RAM
+.common                           33   R/W     0x1116     0x1136   RAM
+.vectSeg344_vect                   2     R     0xFFFE     0xFFFF   .vectSeg344
 
 Summary of section sizes per section type:
-READ_ONLY (R):        19ED (dec:     6637)
-READ_WRITE (R/W):      147 (dec:      327)
+READ_ONLY (R):         509 (dec:     1289)
+READ_WRITE (R/W):      137 (dec:      311)
 NO_INIT (N/I):         190 (dec:      400)
 
 *********************************************************************************************
@@ -444,8 +435,8 @@ MODULE:                 -- mc9s12dg256.c.o --
      _BKP1H                                      2E       1       1       0   .abs_section_2e
      _BKP1L                                      2F       1       1       0   .abs_section_2f
      _PPAGE                                      30       1       1       0   .abs_section_30
-     _PORTK                                      32       1       1      18   .abs_section_32
-     _DDRK                                       33       1       1       1   .abs_section_33
+     _PORTK                                      32       1       1       0   .abs_section_32
+     _DDRK                                       33       1       1       0   .abs_section_33
      _SYNR                                       34       1       1       1   .abs_section_34
      _REFDV                                      35       1       1       1   .abs_section_35
      _CRGFLG                                     37       1       1       2   .abs_section_37
@@ -471,8 +462,8 @@ MODULE:                 -- mc9s12dg256.c.o --
      _TFLG2                                      4F       1       1       1   .abs_section_4f
      _PACTL                                      60       1       1       0   .abs_section_60
      _PAFLG                                      61       1       1       0   .abs_section_61
-     _MCCTL                                      66       1       1       4   .abs_section_66
-     _MCFLG                                      67       1       1       8   .abs_section_67
+     _MCCTL                                      66       1       1       2   .abs_section_66
+     _MCFLG                                      67       1       1       3   .abs_section_67
      _ICPAR                                      68       1       1       0   .abs_section_68
      _DLYCT                                      69       1       1       0   .abs_section_69
      _ICOVW                                      6A       1       1       0   .abs_section_6a
@@ -701,7 +692,7 @@ MODULE:                 -- mc9s12dg256.c.o --
      _CAN4TXDLR                                 2BC       1       1       0   .abs_section_2bc
      _CAN4TXTBPR                                2BD       1       1       0   .abs_section_2bd
      _PORTAB                                      0       2       2       1   .abs_section_0
-     _DDRAB                                       2       2       2       0   .abs_section_2
+     _DDRAB                                       2       2       2       1   .abs_section_2
      _PARTID                                     1A       2       2       0   .abs_section_1a
      _TCNT                                       44       2       2       0   .abs_section_44
      _TC0                                        50       2       2       0   .abs_section_50
@@ -716,7 +707,7 @@ MODULE:                 -- mc9s12dg256.c.o --
      _PACN10                                     64       2       2       0   .abs_section_64
      _PA32H                                      72       2       2       0   .abs_section_72
      _PA10H                                      74       2       2       0   .abs_section_74
-     _MCCNT                                      76       2       2       4   .abs_section_76
+     _MCCNT                                      76       2       2       2   .abs_section_76
      _TC0H                                       78       2       2       0   .abs_section_78
      _TC1H                                       7A       2       2       0   .abs_section_7a
      _TC2H                                       7C       2       2       0   .abs_section_7c
@@ -767,143 +758,57 @@ MODULE:                 -- Start12.c.o --
      _startupData                              C015       6       6       3   .startData  
 - LABELS:
      __SEG_END_SSTACK                          1100       0       0       1               
-MODULE:                 -- PRINTF.C.o (ansibf.lib) --
-- PROCEDURES:
-     Ten                                     308029      F6     246      14   .text       
-     vprintf                                 30811F     AB4    2740     155   .text       
-     _out                                    308BD3       C      12       2   .text       
-     deposit_char                            308BDF       F      15       3   .text       
-     sprintf                                 308BEE      2F      47       2   .text       
-- VARIABLES:
-     pow10                                     C01F      28      40       6   .rodata     
-     pow16                                     C047      20      32       4   .rodata     
-     pow8                                      C067      2C      44       4   .rodata     
-     fpow10                                    C093      60      96       1   .rodata     
-     fpow_10                                   C0F3      60      96       1   .rodata     
-     pbuf                                      1104       7       7      16   .bss        
-MODULE:                 -- DADD.C.o (ansibf.lib) --
-- PROCEDURES:
-     D_ADDKL                                   C167      BC     188       1   NON_BANKED  
-     _DADD                                     C223      11      17       3   NON_BANKED  
-     _DSUB                                     C234      19      25       1   NON_BANKED  
-     _DNEG                                     C24D      17      23       1   NON_BANKED  
-- VARIABLES:
-MODULE:                 -- DANSI.C.o (ansibf.lib) --
-- PROCEDURES:
-     D_FREXP                                   C264      20      32       1   NON_BANKED  
-     frexp                                     C284      1F      31       1   NON_BANKED  
-- VARIABLES:
-MODULE:                 -- DCMP.C.o (ansibf.lib) --
-- PROCEDURES:
-     _DCMP                                     C2A3      30      48       2   NON_BANKED  
-- VARIABLES:
-MODULE:                 -- DCONV.C.o (ansibf.lib) --
-- PROCEDURES:
-     D_TOLONGK                                 C2D3      33      51       1   NON_BANKED  
-     D_FRLONGK                                 C306      19      25       1   NON_BANKED  
-     _DUFLOAT                                  C31F      14      20       2   NON_BANKED  
-     _DSTRUNC                                  C333      19      25       1   NON_BANKED  
-     _DUTRUNC                                  C34C       3       3       4   NON_BANKED  
-     D_PSHK_UNARY                              C34F      1E      30       1   NON_BANKED  
-     D_CLRK_UNARY                              C36D       D      13       2   NON_BANKED  
-     D_MAXK_UNARY                              C37A       A      10       1   NON_BANKED  
-     D_NORMK_UNARY                             C384      5C      92       1   NON_BANKED  
-- VARIABLES:
-MODULE:                 -- DMUL.C.o (ansibf.lib) --
-- PROCEDURES:
-     D_MULKL                                   C3E0      90     144       1   NON_BANKED  
-     _DMUL                                     C470      11      17       6   NON_BANKED  
-- VARIABLES:
-MODULE:                 -- DREGS.C.o (ansibf.lib) --
-- PROCEDURES:
-     D_PULK                                    C481      29      41       3   NON_BANKED  
-     D_PULL                                    C4AA      25      37       3   NON_BANKED  
-     D_PSHK                                    C4CF      23      35       2   NON_BANKED  
-     D_STAL                                    C4F2      2A      42       1   NON_BANKED  
-     D_XGKL                                    C51C      39      57       2   NON_BANKED  
-     D_CLRK                                    C555      13      19       3   NON_BANKED  
-     D_MAXK                                    C568       A      10       1   NON_BANKED  
-     D_NORMK                                   C572      8F     143       4   NON_BANKED  
-- VARIABLES:
 MODULE:                 -- rtshc12.c.o (ansibf.lib) --
 - PROCEDURES:
-     _LCMP_P                                   C601      15      21       3   NON_BANKED  
-     _LNEG                                     C616       D      13       1   NON_BANKED  
-     _LMUL                                     C623      27      39       3   NON_BANKED  
-     _lDivMod                                  C64A      BE     190       2   NON_BANKED  
-     _LDIVU                                    C708       E      14       1   NON_BANKED  
-     _NEG_P                                    C716       F      15       1   NON_BANKED  
-     _LMODU                                    C725      11      17       1   NON_BANKED  
-     _ILSEXT                                   C736       7       7       5   NON_BANKED  
-     _COPY                                     C73D       8       8       4   NON_BANKED  
-     _CASE_DIRECT_BYTE                         C745       5       5       1   NON_BANKED  
-     _CASE_SEARCH_8                            C74A      17      23       1   NON_BANKED  
-     _CASE_SEARCH_8_BYTE                       C761      1A      26       1   NON_BANKED  
-- VARIABLES:
-MODULE:                 -- VREGS.C.o (ansibf.lib) --
-- PROCEDURES:
-     L_NEGK                                    C77B       7       7       1   NON_BANKED  
-     L_PSHK                                    C782       8       8       1   NON_BANKED  
-     UL_PULK                                   C78A       3       3       1   NON_BANKED  
+     _LMUL                                     C02F      27      39       3   NON_BANKED  
+     _ILSEXT                                   C056       7       7       3   NON_BANKED  
 - VARIABLES:
 MODULE:                 -- atd.c.o --
 - PROCEDURES:
-     atd0_powerOn                            308C1D       B      11       2   .text       
-     atd0_setFFC                             308C28      10      16       2   .text       
-     atd0_setLength                          308C38       F      15       2   .text       
-     atd0_setFifo                            308C47       E      14       2   .text       
-     atd0_setResolution                      308C55      11      17       2   .text       
-     atd0_setJustification                   308C66      17      23       2   .text       
-     atd0_setScan                            308C7D      10      16       2   .text       
-     atd0_setMulti                           308C8D      10      16       2   .text       
-     atd0_setStart                           308C9D      12      18       2   .text       
-     atd0_readChX                            308CAF      A0     160       3   .text       
+     atd0_powerOn                            308029       B      11       2   .text       
+     atd0_setFFC                             308034      10      16       2   .text       
+     atd0_setLength                          308044       F      15       2   .text       
+     atd0_setFifo                            308053       E      14       2   .text       
+     atd0_setResolution                      308061      11      17       2   .text       
+     atd0_setJustification                   308072      17      23       2   .text       
+     atd0_setScan                            308089      10      16       2   .text       
+     atd0_setMulti                           308099      10      16       2   .text       
+     atd0_setStart                           3080A9      12      18       2   .text       
+     atd0_readChX                            3080BB      A0     160       3   .text       
 - VARIABLES:
 MODULE:                 -- delays.c.o --
 - PROCEDURES:
-     delay_LCD_TH                            308D4F      26      38       6   .text       
-     delay_LCD_PWEH                          308D75      26      38       6   .text       
-     delay_LCD_TAS                           308D9B      26      38       4   .text       
-     delay_LCD_DATA                          308DC1      26      38      12   .text       
-- VARIABLES:
-MODULE:                 -- lcd.c.o --
-- PROCEDURES:
-     lcd_setup                               308DE7      2F      47       2   .text       
-     lcd_outputString                        308E16      34      52       2   .text       
-     lcd_clear                               308E4A       E      14       2   .text       
-     lcd_COMWRTFIRST                         308E58      41      65       4   .text       
-     lcd_COMWRT                              308E99      43      67       2   .text       
-     lcd_DATWRTFIRST                         308EDC      41      65       2   .text       
+     delay_LCD_DATA                          30815B      26      38       2   .text       
 - VARIABLES:
 MODULE:                 -- filtersFixed.c.o --
 - PROCEDURES:
-     butterworth_2pole_initF                 308F1D      56      86       2   .text       
-     butterworth_2pole_putF                  308F73      A6     166       3   .text       
-     butterworth_2pole_get_longF             309019      6C     108       2   .text       
+     butterworth_2pole_initF                 308181      56      86       2   .text       
+     butterworth_2pole_putF                  3081D7      A6     166       3   .text       
+     butterworth_2pole_get_longF             30827D      6C     108       2   .text       
 - VARIABLES:
 MODULE:                 -- Project4a.c.o --
 - PROCEDURES:
-     main                                    309085     102     258       2   .text       
-     rtiInterrupt                              C78D      BF     191       1   NON_BANKED  
-     ovfInterrupt                              C84C       B      11       1   NON_BANKED  
+     main                                    3082E9      EE     238       2   .text       
+     rtiInterrupt                              C05D      3C      60       1   NON_BANKED  
+     ovfInterrupt                              C099       B      11       1   NON_BANKED  
+     mdcuInterrupt                             C0A4      7D     125       1   NON_BANKED  
 - VARIABLES:
-     Rstep                                     C153       8       8       1   .rodata     
-     Lstep                                     C15B       8       8       1   .rodata     
-     STRING..3d.1                              C163       4       4       1   .rodata1    
+     Rstep                                     C01F       8       8       1   .rodata     
+     Lstep                                     C027       8       8       1   .rodata     
      Lspeed                                    1100       2       2       3   .data       
-     Rspeed                                    1102       2       2       3   .data       
-     mt_ovf                                    110B       2       2       4   .bss        
-     avgButter2                                110D       2       2       2   .bss        
-     avgBufF                                   110F       9       9       2   .bss        
-     rti_count.2                               1118       2       2       3   .bss        
-     Rmotcount.5                               111A       2       2       4   .bss        
-     Lmotcount.6                               111C       2       2       4   .bss        
-     Lindex.7                                  111E       2       2       4   .bss        
-     Rindex.8                                  1120       2       2       4   .bss        
+     Rspeed                                    1102       2       2       2   .data       
+     mt_ovf                                    1104       2       2       2   .bss        
+     distance1                                 1106       4       4       3   .bss        
+     avgButter2                                110A       2       2       1   .bss        
+     Rmotcount                                 110C       2       2       3   .bss        
+     Lmotcount                                 110E       2       2       3   .bss        
+     distcount.2                               1110       2       2       3   .bss        
+     Lindex.5                                  1112       2       2       4   .bss        
+     Rindex.6                                  1114       2       2       4   .bss        
      _Vector_7                                 FFF0       2       2       0   .abs_section_fff0
      _Vector_16                                FFDE       2       2       0   .abs_section_ffde
-     butterF                                   1122      21      33       3   .common     
-     distance1                                 1143       4       4       2   .common     
+     _Vector_26                                FFCA       2       2       0   .abs_section_ffca
+     butterF                                   1116      21      33       3   .common     
 
 *********************************************************************************************
 MODULE STATISTIC
@@ -911,50 +816,32 @@ MODULE STATISTIC
 ---------------------------------------------------------------------------------------------
   mc9s12dg256.c.o                            400      0      0
   Start12.c.o                                  0     62      0
-  PRINTF.C.o (ansibf.lib)                      7   3060    308
-  DADD.C.o (ansibf.lib)                        0    253      0
-  DANSI.C.o (ansibf.lib)                       0     63      0
-  DCMP.C.o (ansibf.lib)                        0     48      0
-  DCONV.C.o (ansibf.lib)                       0    269      0
-  DMUL.C.o (ansibf.lib)                        0    161      0
-  DREGS.C.o (ansibf.lib)                       0    384      0
-  rtshc12.c.o (ansibf.lib)                     0    378      0
-  VREGS.C.o (ansibf.lib)                       0     18      0
+  rtshc12.c.o (ansibf.lib)                     0     46      0
   atd.c.o                                      0    306      0
-  delays.c.o                                   0    152      0
-  lcd.c.o                                      0    310      0
+  delays.c.o                                   0     38      0
   filtersFixed.c.o                             0    360      0
-  Project4a.c.o                               64    460     24
+  Project4a.c.o                               55    434     22
   other                                      256     12      9
 
 *********************************************************************************************
 SECTION USE IN OBJECT-ALLOCATION SECTION
 ---------------------------------------------------------------------------------------------
 SECTION: ".text"
-  Init Ten vprintf _out deposit_char sprintf atd0_powerOn atd0_setFFC 
-  atd0_setLength atd0_setFifo atd0_setResolution atd0_setJustification 
-  atd0_setScan atd0_setMulti atd0_setStart atd0_readChX delay_LCD_TH 
-  delay_LCD_PWEH delay_LCD_TAS delay_LCD_DATA lcd_setup lcd_outputString 
-  lcd_clear lcd_COMWRTFIRST lcd_COMWRT lcd_DATWRTFIRST butterworth_2pole_initF 
-  butterworth_2pole_putF butterworth_2pole_get_longF main 
+  Init atd0_powerOn atd0_setFFC atd0_setLength atd0_setFifo atd0_setResolution 
+  atd0_setJustification atd0_setScan atd0_setMulti atd0_setStart atd0_readChX 
+  delay_LCD_DATA butterworth_2pole_initF butterworth_2pole_putF 
+  butterworth_2pole_get_longF main 
 SECTION: ".data"
   Lspeed Rspeed 
 SECTION: ".bss"
-  pbuf mt_ovf avgButter2 avgBufF rti_count.2 Rmotcount.5 Lmotcount.6 Lindex.7 
-  Rindex.8 
+  mt_ovf distance1 avgButter2 Rmotcount Lmotcount distcount.2 Lindex.5 
+  Rindex.6 
 SECTION: ".init"
   _Startup 
 SECTION: ".rodata"
-  pow10 pow16 pow8 fpow10 fpow_10 Rstep Lstep 
-SECTION: ".rodata1"
-  STRING..3d.1 
+  Rstep Lstep 
 SECTION: "NON_BANKED"
-  D_ADDKL _DADD _DSUB _DNEG D_FREXP frexp _DCMP D_TOLONGK D_FRLONGK _DUFLOAT 
-  _DSTRUNC _DUTRUNC D_PSHK_UNARY D_CLRK_UNARY D_MAXK_UNARY D_NORMK_UNARY 
-  D_MULKL _DMUL D_PULK D_PULL D_PSHK D_STAL D_XGKL D_CLRK D_MAXK D_NORMK 
-  _LCMP_P _LNEG _LMUL _lDivMod _LDIVU _NEG_P _LMODU _ILSEXT _COPY 
-  _CASE_DIRECT_BYTE _CASE_SEARCH_8 _CASE_SEARCH_8_BYTE L_NEGK L_PSHK UL_PULK 
-  rtiInterrupt ovfInterrupt 
+  _LMUL _ILSEXT rtiInterrupt ovfInterrupt mdcuInterrupt 
 SECTION: ".abs_section_8"
   _PORTE 
 SECTION: ".abs_section_9"
@@ -1638,18 +1525,20 @@ SECTION: ".abs_section_2ae"
 SECTION: ".abs_section_2be"
   _CAN4TXTSR 
 SECTION: ".common"
-  butterF distance1 
+  butterF 
 SECTION: ".abs_section_fff0"
   _Vector_7 
 SECTION: ".abs_section_ffde"
   _Vector_16 
+SECTION: ".abs_section_ffca"
+  _Vector_26 
 
 *********************************************************************************************
 OBJECT LIST SORTED BY ADDRESS
      Name                                      Addr   hSize   dSize     Ref    Section   RLIB
 ---------------------------------------------------------------------------------------------
      _PORTAB                                      0       2       2       1   .abs_section_0
-     _DDRAB                                       2       2       2       0   .abs_section_2
+     _DDRAB                                       2       2       2       1   .abs_section_2
      _PORTE                                       8       1       1       0   .abs_section_8
      _DDRE                                        9       1       1       0   .abs_section_9
      _PEAR                                        A       1       1       0   .abs_section_a
@@ -1677,8 +1566,8 @@ OBJECT LIST SORTED BY ADDRESS
      _BKP1H                                      2E       1       1       0   .abs_section_2e
      _BKP1L                                      2F       1       1       0   .abs_section_2f
      _PPAGE                                      30       1       1       0   .abs_section_30
-     _PORTK                                      32       1       1      18   .abs_section_32
-     _DDRK                                       33       1       1       1   .abs_section_33
+     _PORTK                                      32       1       1       0   .abs_section_32
+     _DDRK                                       33       1       1       0   .abs_section_33
      _SYNR                                       34       1       1       1   .abs_section_34
      _REFDV                                      35       1       1       1   .abs_section_35
      _CRGFLG                                     37       1       1       2   .abs_section_37
@@ -1715,8 +1604,8 @@ OBJECT LIST SORTED BY ADDRESS
      _PAFLG                                      61       1       1       0   .abs_section_61
      _PACN32                                     62       2       2       0   .abs_section_62
      _PACN10                                     64       2       2       0   .abs_section_64
-     _MCCTL                                      66       1       1       4   .abs_section_66
-     _MCFLG                                      67       1       1       8   .abs_section_67
+     _MCCTL                                      66       1       1       2   .abs_section_66
+     _MCFLG                                      67       1       1       3   .abs_section_67
      _ICPAR                                      68       1       1       0   .abs_section_68
      _DLYCT                                      69       1       1       0   .abs_section_69
      _ICOVW                                      6A       1       1       0   .abs_section_6a
@@ -1725,7 +1614,7 @@ OBJECT LIST SORTED BY ADDRESS
      _PBFLG                                      71       1       1       0   .abs_section_71
      _PA32H                                      72       2       2       0   .abs_section_72
      _PA10H                                      74       2       2       0   .abs_section_74
-     _MCCNT                                      76       2       2       4   .abs_section_76
+     _MCCNT                                      76       2       2       2   .abs_section_76
      _TC0H                                       78       2       2       0   .abs_section_78
      _TC1H                                       7A       2       2       0   .abs_section_7a
      _TC2H                                       7C       2       2       0   .abs_section_7c
@@ -1990,159 +1879,82 @@ OBJECT LIST SORTED BY ADDRESS
      _CAN4TXTBPR                                2BD       1       1       0   .abs_section_2bd
      _CAN4TXTSR                                 2BE       2       2       0   .abs_section_2be
      Lspeed                                    1100       2       2       3   .data       
-     Rspeed                                    1102       2       2       3   .data       
-     pbuf                                      1104       7       7      16   .bss        
-     mt_ovf                                    110B       2       2       4   .bss        
-     avgButter2                                110D       2       2       2   .bss        
-     avgBufF                                   110F       9       9       2   .bss        
-     rti_count.2                               1118       2       2       3   .bss        
-     Rmotcount.5                               111A       2       2       4   .bss        
-     Lmotcount.6                               111C       2       2       4   .bss        
-     Lindex.7                                  111E       2       2       4   .bss        
-     Rindex.8                                  1120       2       2       4   .bss        
-     butterF                                   1122      21      33       3   .common     
-     distance1                                 1143       4       4       2   .common     
+     Rspeed                                    1102       2       2       2   .data       
+     mt_ovf                                    1104       2       2       2   .bss        
+     distance1                                 1106       4       4       3   .bss        
+     avgButter2                                110A       2       2       1   .bss        
+     Rmotcount                                 110C       2       2       3   .bss        
+     Lmotcount                                 110E       2       2       3   .bss        
+     distcount.2                               1110       2       2       3   .bss        
+     Lindex.5                                  1112       2       2       4   .bss        
+     Rindex.6                                  1114       2       2       4   .bss        
+     butterF                                   1116      21      33       3   .common     
      _Startup                                  C000      15      21       0   .init       
-     pow10                                     C01F      28      40       6   .rodata     
-     pow16                                     C047      20      32       4   .rodata     
-     pow8                                      C067      2C      44       4   .rodata     
-     fpow10                                    C093      60      96       1   .rodata     
-     fpow_10                                   C0F3      60      96       1   .rodata     
-     Rstep                                     C153       8       8       1   .rodata     
-     Lstep                                     C15B       8       8       1   .rodata     
-     STRING..3d.1                              C163       4       4       1   .rodata1    
-     D_ADDKL                                   C167      BC     188       1   NON_BANKED  
-     _DADD                                     C223      11      17       3   NON_BANKED  
-     _DSUB                                     C234      19      25       1   NON_BANKED  
-     _DNEG                                     C24D      17      23       1   NON_BANKED  
-     D_FREXP                                   C264      20      32       1   NON_BANKED  
-     frexp                                     C284      1F      31       1   NON_BANKED  
-     _DCMP                                     C2A3      30      48       2   NON_BANKED  
-     D_TOLONGK                                 C2D3      33      51       1   NON_BANKED  
-     D_FRLONGK                                 C306      19      25       1   NON_BANKED  
-     _DUFLOAT                                  C31F      14      20       2   NON_BANKED  
-     _DSTRUNC                                  C333      19      25       1   NON_BANKED  
-     _DUTRUNC                                  C34C       3       3       4   NON_BANKED  
-     D_PSHK_UNARY                              C34F      1E      30       1   NON_BANKED  
-     D_CLRK_UNARY                              C36D       D      13       2   NON_BANKED  
-     D_MAXK_UNARY                              C37A       A      10       1   NON_BANKED  
-     D_NORMK_UNARY                             C384      5C      92       1   NON_BANKED  
-     D_MULKL                                   C3E0      90     144       1   NON_BANKED  
-     _DMUL                                     C470      11      17       6   NON_BANKED  
-     D_PULK                                    C481      29      41       3   NON_BANKED  
-     D_PULL                                    C4AA      25      37       3   NON_BANKED  
-     D_PSHK                                    C4CF      23      35       2   NON_BANKED  
-     D_STAL                                    C4F2      2A      42       1   NON_BANKED  
-     D_XGKL                                    C51C      39      57       2   NON_BANKED  
-     D_CLRK                                    C555      13      19       3   NON_BANKED  
-     D_MAXK                                    C568       A      10       1   NON_BANKED  
-     D_NORMK                                   C572      8F     143       4   NON_BANKED  
-     _LCMP_P                                   C601      15      21       3   NON_BANKED  
-     _LNEG                                     C616       D      13       1   NON_BANKED  
-     _LMUL                                     C623      27      39       3   NON_BANKED  
-     _lDivMod                                  C64A      BE     190       2   NON_BANKED  
-     _LDIVU                                    C708       E      14       1   NON_BANKED  
-     _NEG_P                                    C716       F      15       1   NON_BANKED  
-     _LMODU                                    C725      11      17       1   NON_BANKED  
-     _ILSEXT                                   C736       7       7       5   NON_BANKED  
-     _COPY                                     C73D       8       8       4   NON_BANKED  
-     _CASE_DIRECT_BYTE                         C745       5       5       1   NON_BANKED  
-     _CASE_SEARCH_8                            C74A      17      23       1   NON_BANKED  
-     _CASE_SEARCH_8_BYTE                       C761      1A      26       1   NON_BANKED  
-     L_NEGK                                    C77B       7       7       1   NON_BANKED  
-     L_PSHK                                    C782       8       8       1   NON_BANKED  
-     UL_PULK                                   C78A       3       3       1   NON_BANKED  
-     rtiInterrupt                              C78D      BF     191       1   NON_BANKED  
-     ovfInterrupt                              C84C       B      11       1   NON_BANKED  
+     Rstep                                     C01F       8       8       1   .rodata     
+     Lstep                                     C027       8       8       1   .rodata     
+     _LMUL                                     C02F      27      39       3   NON_BANKED  
+     _ILSEXT                                   C056       7       7       3   NON_BANKED  
+     rtiInterrupt                              C05D      3C      60       1   NON_BANKED  
+     ovfInterrupt                              C099       B      11       1   NON_BANKED  
+     mdcuInterrupt                             C0A4      7D     125       1   NON_BANKED  
+     _Vector_26                                FFCA       2       2       0   .abs_section_ffca
      _Vector_16                                FFDE       2       2       0   .abs_section_ffde
      _Vector_7                                 FFF0       2       2       0   .abs_section_fff0
      Init                                    308000      29      41       2   .text       
-     Ten                                     308029      F6     246      14   .text       
-     vprintf                                 30811F     AB4    2740     155   .text       
-     _out                                    308BD3       C      12       2   .text       
-     deposit_char                            308BDF       F      15       3   .text       
-     sprintf                                 308BEE      2F      47       2   .text       
-     atd0_powerOn                            308C1D       B      11       2   .text       
-     atd0_setFFC                             308C28      10      16       2   .text       
-     atd0_setLength                          308C38       F      15       2   .text       
-     atd0_setFifo                            308C47       E      14       2   .text       
-     atd0_setResolution                      308C55      11      17       2   .text       
-     atd0_setJustification                   308C66      17      23       2   .text       
-     atd0_setScan                            308C7D      10      16       2   .text       
-     atd0_setMulti                           308C8D      10      16       2   .text       
-     atd0_setStart                           308C9D      12      18       2   .text       
-     atd0_readChX                            308CAF      A0     160       3   .text       
-     delay_LCD_TH                            308D4F      26      38       6   .text       
-     delay_LCD_PWEH                          308D75      26      38       6   .text       
-     delay_LCD_TAS                           308D9B      26      38       4   .text       
-     delay_LCD_DATA                          308DC1      26      38      12   .text       
-     lcd_setup                               308DE7      2F      47       2   .text       
-     lcd_outputString                        308E16      34      52       2   .text       
-     lcd_clear                               308E4A       E      14       2   .text       
-     lcd_COMWRTFIRST                         308E58      41      65       4   .text       
-     lcd_COMWRT                              308E99      43      67       2   .text       
-     lcd_DATWRTFIRST                         308EDC      41      65       2   .text       
-     butterworth_2pole_initF                 308F1D      56      86       2   .text       
-     butterworth_2pole_putF                  308F73      A6     166       3   .text       
-     butterworth_2pole_get_longF             309019      6C     108       2   .text       
-     main                                    309085     102     258       2   .text       
+     atd0_powerOn                            308029       B      11       2   .text       
+     atd0_setFFC                             308034      10      16       2   .text       
+     atd0_setLength                          308044       F      15       2   .text       
+     atd0_setFifo                            308053       E      14       2   .text       
+     atd0_setResolution                      308061      11      17       2   .text       
+     atd0_setJustification                   308072      17      23       2   .text       
+     atd0_setScan                            308089      10      16       2   .text       
+     atd0_setMulti                           308099      10      16       2   .text       
+     atd0_setStart                           3080A9      12      18       2   .text       
+     atd0_readChX                            3080BB      A0     160       3   .text       
+     delay_LCD_DATA                          30815B      26      38       2   .text       
+     butterworth_2pole_initF                 308181      56      86       2   .text       
+     butterworth_2pole_putF                  3081D7      A6     166       3   .text       
+     butterworth_2pole_get_longF             30827D      6C     108       2   .text       
+     main                                    3082E9      EE     238       2   .text       
 
 *********************************************************************************************
 UNUSED-OBJECTS SECTION
 ---------------------------------------------------------------------------------------------
 NOT USED PROCEDURES
-PRINTF.C.o (ansibf.lib):
-  set_printf vsprintf 
-DADD.C.o (ansibf.lib):
-  _DINC _DDEC _DABS 
-DANSI.C.o (ansibf.lib):
-  D_MODF D_LDEXP modf RetErrDom ldexp 
-DCONV.C.o (ansibf.lib):
-  _DSFLOAT 
-DMUL.C.o (ansibf.lib):
-  D_DIVKL _DDIV 
-DREGS.C.o (ansibf.lib):
-  D_TLK D_TKL D_CLRL 
 rtshc12.c.o (ansibf.lib):
   _BSHL _BSHRS _BSHRU _BDIVMODU _BDIVMODS _ISHL _ISHRU _ISHRS _LSHL _LSHRU 
-  _LSHRS _LADD _LSUB _LAND _LOR _LXOR _LCMP _LCMP_PP _LCOM _LINC _LDEC 
-  _LMULU16x32 _LMULS16x32 _LDIVS _LMODS _CASE_DIRECT _CASE_CHECKED 
-  _CASE_CHECKED_BYTE _CASE_SEARCH _CASE_SEARCH_BYTE _FCALL _FPCMP 
-VREGS.C.o (ansibf.lib):
-  SL_PULK 
+  _LSHRS _LADD _LSUB _LAND _LOR _LXOR _LCMP _LCMP_P _LCMP_PP _LNEG _LCOM _LINC 
+  _LDEC _LMULU16x32 _LMULS16x32 _lDivMod _LDIVU _NEG_P _LDIVS _LMODU _LMODS 
+  _COPY _CASE_DIRECT _CASE_DIRECT_BYTE _CASE_CHECKED _CASE_CHECKED_BYTE 
+  _CASE_SEARCH _CASE_SEARCH_BYTE _CASE_SEARCH_8 _CASE_SEARCH_8_BYTE _FCALL 
+  _FPCMP 
 atd.c.o:
   atd0_powerOff 
 delays.c.o:
-  delay_us delay_ms delay_LCD_SCROLL delay_motor_STEP 
-lcd.c.o:
-  lcd_outputDouble lcd_outputFloat lcd_outputChar lcd_newLine lcd_DATWRT 
-  lcd_DATWRTLAST 
+  delay_us delay_ms delay_LCD_TH delay_LCD_PWEH delay_LCD_TAS delay_LCD_SCROLL 
+  delay_motor_STEP 
 NOT USED VARIABLES
-DANSI.C.o (ansibf.lib):
-  infinity errno 
 rtshc12.c.o (ansibf.lib):
   _PowOfTwo_8 _PowOfTwo_16 _PowOfTwo_32 errno 
-lcd.c.o:
-  STRING..8.5f.1 STRING..8.3f.2 
 Project4a.c.o:
-  rIndex.3 lIndex.4 d 
+  avgBufF on.1 rIndex.3 lIndex.4 d 
 
 *********************************************************************************************
 COPYDOWN SECTION
 ---------------------------------------------------------------------------------------------
-------- ROM-ADDRESS: 0xC857 ---- SIZE       4 ---
+------- ROM-ADDRESS: 0xC121 ---- SIZE       4 ---
 Filling bytes inserted
  00031101
-------- ROM-ADDRESS: 0xC85B ---- RAM-ADDRESS: 0x1101 ---- SIZE       1 ---
+------- ROM-ADDRESS: 0xC125 ---- RAM-ADDRESS: 0x1101 ---- SIZE       1 ---
 Name of initialized Object : Lspeed:1
- 32
-------- ROM-ADDRESS: 0xC85C ---- SIZE       1 ---
+ 01
+------- ROM-ADDRESS: 0xC126 ---- SIZE       1 ---
 Filling bytes inserted
  00
-------- ROM-ADDRESS: 0xC85D ---- RAM-ADDRESS: 0x1103 ---- SIZE       1 ---
+------- ROM-ADDRESS: 0xC127 ---- RAM-ADDRESS: 0x1103 ---- SIZE       1 ---
 Name of initialized Object : Rspeed:1
- 32
-------- ROM-ADDRESS: 0xC85E ---- SIZE       2 ---
+ 01
+------- ROM-ADDRESS: 0xC128 ---- SIZE       2 ---
 Filling bytes inserted
  0000
 
@@ -2150,41 +1962,16 @@ Filling bytes inserted
 OBJECT-DEPENDENCIES SECTION
 ---------------------------------------------------------------------------------------------
 _Startup                  USES __SEG_END_SSTACK Init main 
-D_ADDKL                   USES D_XGKL D_NORMK 
-_DADD                     USES D_PULK D_PULL D_ADDKL D_PSHK 
-_DSUB                     USES _DADD 
-D_FREXP                   USES D_NORMK 
-frexp                     USES D_PULK D_FREXP D_STAL 
-D_FRLONGK                 USES D_NORMK_UNARY 
-_DUFLOAT                  USES UL_PULK D_FRLONGK D_PSHK_UNARY 
-_DSTRUNC                  USES D_PULL D_TOLONGK L_PSHK 
-_DUTRUNC                  USES _DSTRUNC 
-D_MAXK_UNARY              USES D_CLRK_UNARY 
-D_NORMK_UNARY             USES D_CLRK_UNARY D_MAXK_UNARY 
-D_MULKL                   USES D_CLRK D_NORMK 
-_DMUL                     USES D_PULK D_PULL D_MULKL D_PSHK 
-D_MAXK                    USES D_CLRK 
-D_NORMK                   USES D_CLRK D_MAXK 
-_LDIVU                    USES _lDivMod 
-_LMODU                    USES _lDivMod 
-L_NEGK                    USES _NEG_P 
-L_PSHK                    USES L_NEGK 
-rtiInterrupt              USES _CRGFLG rti_count.2 Rmotcount.5 Lmotcount.6 
-                                atd0_readChX mt_ovf butterF butterworth_2pole_putF 
-                                butterworth_2pole_get_longF avgButter2 _ILSEXT distance1 Rspeed Lspeed 
-                                Rindex.8 Rstep Lindex.7 Lstep _PORTAB 
+rtiInterrupt              USES _CRGFLG distcount.2 atd0_readChX butterF 
+                                butterworth_2pole_putF butterworth_2pole_get_longF avgButter2 _ILSEXT 
+                                distance1 
 ovfInterrupt              USES _TFLG2 mt_ovf 
+mdcuInterrupt             USES _MCFLG Rmotcount Lmotcount distance1 Rspeed 
+                                Lspeed Rindex.6 Rstep Lindex.5 Lstep _PORTAB 
+_Vector_26                USES mdcuInterrupt 
 _Vector_16                USES ovfInterrupt 
 _Vector_7                 USES rtiInterrupt 
 Init                      USES _startupData 
-Ten                       USES fpow10 fpow_10 Ten _DMUL _COPY 
-vprintf                   USES vprintf _CASE_SEARCH_8_BYTE _CASE_DIRECT_BYTE 
-                                _CASE_SEARCH_8 pbuf _ILSEXT _LNEG pow8 _LCMP_P pow16 pow10 
-                                _DNEG frexp Ten _DMUL _DUTRUNC _DUFLOAT _DADD _COPY 
-                                _DSUB _DCMP _LDIVU _LMODU _out 
-_out                      USES pbuf 
-deposit_char              USES pbuf 
-sprintf                   USES pbuf deposit_char vprintf 
 atd0_powerOn              USES _ATD0CTL23 delay_LCD_DATA 
 atd0_setFFC               USES _ATD0CTL23 
 atd0_setLength            USES _ATD0CTL23 
@@ -2196,27 +1983,14 @@ atd0_setMulti             USES _ATD0CTL45
 atd0_setStart             USES _ATD0CTL45 
 atd0_readChX              USES _ATD0STAT0 _ATD0DR0 atd0_readChX _ATD0DR1 
                                 _ATD0DR2 _ATD0DR3 _ATD0DR4 _ATD0DR5 _ATD0DR6 _ATD0DR7 
-delay_LCD_TH              USES _MCCNT _MCCTL _MCFLG 
-delay_LCD_PWEH            USES _MCCNT _MCCTL _MCFLG 
-delay_LCD_TAS             USES _MCCNT _MCCTL _MCFLG 
 delay_LCD_DATA            USES _MCCNT _MCCTL _MCFLG 
-lcd_setup                 USES _DDRK lcd_COMWRTFIRST delay_LCD_DATA lcd_COMWRT 
-lcd_outputString          USES delay_LCD_DATA lcd_DATWRTFIRST 
-lcd_clear                 USES lcd_COMWRTFIRST delay_LCD_DATA 
-lcd_COMWRTFIRST           USES _PORTK delay_LCD_TAS delay_LCD_PWEH 
-                                delay_LCD_TH 
-lcd_COMWRT                USES delay_LCD_DATA _PORTK delay_LCD_PWEH 
-                                delay_LCD_TH 
-lcd_DATWRTFIRST           USES _PORTK delay_LCD_TAS delay_LCD_TH 
-                                delay_LCD_PWEH 
 butterworth_2pole_putF    USES butterworth_2pole_putF _LMUL _ILSEXT 
 butterworth_2pole_get_longF USES _LMUL _ILSEXT 
 main                      USES _SYNR _REFDV _CRGFLG _CLKSEL _RTICTL _CRGINT 
-                                _TSCR1 _TSCR2 atd0_powerOn atd0_setFFC atd0_setLength 
-                                atd0_setFifo atd0_setResolution atd0_setJustification 
-                                atd0_setScan atd0_setMulti atd0_setStart butterF 
-                                butterworth_2pole_initF lcd_setup avgButter2 STRING..3d.1 avgBufF 
-                                sprintf lcd_clear lcd_outputString 
+                                _TSCR1 _TSCR2 _MCCTL _MCCNT atd0_powerOn atd0_setFFC 
+                                atd0_setLength atd0_setFifo atd0_setResolution 
+                                atd0_setJustification atd0_setScan atd0_setMulti atd0_setStart 
+                                butterF butterworth_2pole_initF _DDRAB 
 
 *********************************************************************************************
 DEPENDENCY TREE
@@ -2246,163 +2020,7 @@ DEPENDENCY TREE
  |  +- atd0_setStart       
  |  |    
  |  +- butterworth_2pole_initF
- |  |    
- |  +- lcd_setup           
- |  |  | 
- |  |  +- lcd_COMWRTFIRST     
- |  |  |  | 
- |  |  |  +- delay_LCD_TAS       
- |  |  |  |    
- |  |  |  +- delay_LCD_PWEH      
- |  |  |  |    
- |  |  |  +- delay_LCD_TH        
- |  |  |       
- |  |  +- delay_LCD_DATA       (see above)
- |  |  |  
- |  |  +- lcd_COMWRT          
- |  |     | 
- |  |     +- delay_LCD_DATA       (see above)
- |  |     |  
- |  |     +- delay_LCD_PWEH       (see above)
- |  |     |  
- |  |     +- delay_LCD_TH         (see above)
- |  |        
- |  +- sprintf             
- |  |  | 
- |  |  +- deposit_char        
- |  |  |    
- |  |  +- vprintf             
- |  |     | 
- |  |     +- _CASE_SEARCH_8_BYTE 
- |  |     |    
- |  |     +- _CASE_DIRECT_BYTE   
- |  |     |    
- |  |     +- _CASE_SEARCH_8      
- |  |     |    
- |  |     +- _ILSEXT             
- |  |     |    
- |  |     +- _LNEG               
- |  |     |    
- |  |     +- _LCMP_P             
- |  |     |    
- |  |     +- _DNEG               
- |  |     |    
- |  |     +- frexp               
- |  |     |  | 
- |  |     |  +- D_PULK              
- |  |     |  |    
- |  |     |  +- D_FREXP             
- |  |     |  |  | 
- |  |     |  |  +- D_NORMK             
- |  |     |  |     | 
- |  |     |  |     +- D_CLRK              
- |  |     |  |     |    
- |  |     |  |     +- D_MAXK              
- |  |     |  |        | 
- |  |     |  |        +- D_CLRK               (see above)
- |  |     |  |           
- |  |     |  +- D_STAL              
- |  |     |       
- |  |     +- Ten                 
- |  |     |  | 
- |  |     |  +- _DMUL               
- |  |     |  |  | 
- |  |     |  |  +- D_PULK               (see above)
- |  |     |  |  |  
- |  |     |  |  +- D_PULL              
- |  |     |  |  |    
- |  |     |  |  +- D_MULKL             
- |  |     |  |  |  | 
- |  |     |  |  |  +- D_CLRK               (see above)
- |  |     |  |  |  |  
- |  |     |  |  |  +- D_NORMK              (see above)
- |  |     |  |  |     
- |  |     |  |  +- D_PSHK              
- |  |     |  |       
- |  |     |  +- _COPY               
- |  |     |       
- |  |     +- _DMUL                (see above)
- |  |     |  
- |  |     +- _DUTRUNC            
- |  |     |  | 
- |  |     |  +- _DSTRUNC            
- |  |     |     | 
- |  |     |     +- D_PULL               (see above)
- |  |     |     |  
- |  |     |     +- D_TOLONGK           
- |  |     |     |    
- |  |     |     +- L_PSHK              
- |  |     |        | 
- |  |     |        +- L_NEGK              
- |  |     |           | 
- |  |     |           +- _NEG_P              
- |  |     |                
- |  |     +- _DUFLOAT            
- |  |     |  | 
- |  |     |  +- UL_PULK             
- |  |     |  |    
- |  |     |  +- D_FRLONGK           
- |  |     |  |  | 
- |  |     |  |  +- D_NORMK_UNARY       
- |  |     |  |     | 
- |  |     |  |     +- D_CLRK_UNARY        
- |  |     |  |     |    
- |  |     |  |     +- D_MAXK_UNARY        
- |  |     |  |        | 
- |  |     |  |        +- D_CLRK_UNARY         (see above)
- |  |     |  |           
- |  |     |  +- D_PSHK_UNARY        
- |  |     |       
- |  |     +- _DADD               
- |  |     |  | 
- |  |     |  +- D_PULK               (see above)
- |  |     |  |  
- |  |     |  +- D_PULL               (see above)
- |  |     |  |  
- |  |     |  +- D_ADDKL             
- |  |     |  |  | 
- |  |     |  |  +- D_XGKL              
- |  |     |  |  |    
- |  |     |  |  +- D_NORMK              (see above)
- |  |     |  |     
- |  |     |  +- D_PSHK               (see above)
- |  |     |     
- |  |     +- _COPY                (see above)
- |  |     |  
- |  |     +- _DSUB               
- |  |     |  | 
- |  |     |  +- _DADD                (see above)
- |  |     |     
- |  |     +- _DCMP               
- |  |     |    
- |  |     +- _LDIVU              
- |  |     |  | 
- |  |     |  +- _lDivMod            
- |  |     |       
- |  |     +- _LMODU              
- |  |     |  | 
- |  |     |  +- _lDivMod             (see above)
- |  |     |     
- |  |     +- _out                
- |  |          
- |  +- lcd_clear           
- |  |  | 
- |  |  +- lcd_COMWRTFIRST      (see above)
- |  |  |  
- |  |  +- delay_LCD_DATA       (see above)
- |  |     
- |  +- lcd_outputString    
- |     | 
- |     +- delay_LCD_DATA       (see above)
- |     |  
- |     +- lcd_DATWRTFIRST     
- |        | 
- |        +- delay_LCD_TAS        (see above)
- |        |  
- |        +- delay_LCD_TH         (see above)
- |        |  
- |        +- delay_LCD_PWEH       (see above)
- |           
+ |       
  +- _Startup            
     | 
     +- Init                
@@ -2419,8 +2037,8 @@ DEPENDENCY TREE
     |  | 
     |  +- _LMUL               
     |  |    
-    |  +- _ILSEXT              (see above)
-    |     
+    |  +- _ILSEXT             
+    |       
     +- butterworth_2pole_get_longF
     |  | 
     |  +- _LMUL                (see above)
@@ -2433,12 +2051,16 @@ DEPENDENCY TREE
  | 
  +- ovfInterrupt        
       
+ _Vector_26          
+ | 
+ +- mdcuInterrupt       
+      
 *********************************************************************************************
 STATISTIC SECTION
 ---------------------------------------------------------------------------------------------
 
 ExeFile:
 --------
-Number of blocks to be downloaded: 7
-Total size of all blocks to be downloaded: 6637
+Number of blocks to be downloaded: 9
+Total size of all blocks to be downloaded: 1289
 
